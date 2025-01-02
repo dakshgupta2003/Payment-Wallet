@@ -28,7 +28,7 @@ router.post("/send-otp", async (req, res) => {
     await otp.save();
 
     // console.log("otp document is: ", otp)
-    const accountSID = "ACfaa87250ccaebf00ea8b639761231401";
+    const accountSID = process.env.ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const client = twilio(accountSID, authToken);
 
