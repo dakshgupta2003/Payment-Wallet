@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Playwrite+AU+SA:wght@100..400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Afacad Flux", sans-serif;
+    /* background-color: var(--primary); */
+}
+
+/* body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+} */
