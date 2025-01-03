@@ -34,8 +34,9 @@ const Transactions = () => {
       title: "Type",
       dataIndex: "type",
       render: (text, record) => {
-        const senderId = record.sender._id || record.sender;
-        const receiverId = record.receiver._id || record.receiver;
+        const senderId = record.sender?._id || record.sender;
+        const receiverId = record.receiver?._id || record.receiver;
+
         // return record.sender === user._id ? "Debit" : "Credit"
         if (senderId === user._id && receiverId === user._id) return "Deposit";
         if (senderId === user._id) return "Debit";
@@ -49,6 +50,14 @@ const Transactions = () => {
       dataIndex: "",
       render: (text, record) => {
         const refAccount = user._id ? record.receiver : record.sender;
+        if (!refAccount) {
+          return (
+            <Tooltip title="Unknown">
+              <h1 className="text-sm">Unknown</h1>
+            </Tooltip>
+          );
+        }
+
         const refName = refAccount.name;
 
         return (

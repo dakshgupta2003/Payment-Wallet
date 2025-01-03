@@ -32,9 +32,11 @@ const Home = () => {
       title: "Type",
       dataIndex: "type",
       render: (text, record) => {
-        const senderId = record.sender._id || record.sender;
-        const receiverId = record.receiver._id || record.receiver;
+        const senderId = record.sender?._id || record.sender;
+        const receiverId = record.receiver?._id || record.receiver;
         // return record.sender === user._id ? "Debit" : "Credit"
+        // console.log("sender id is: ", senderId)
+        // console.log("receiver id is:", receiverId)
         if (senderId === user._id) return "Debit";
         else if (receiverId === user._id) return "Credit";
       },
@@ -46,10 +48,21 @@ const Home = () => {
       dataIndex: "",
       render: (text, record) => {
         const refAccount = user._id ? record.receiver : record.sender;
-        const refName = refAccount.name;
+        // console.log("here is:",refAccount)
+        
+        if (!refAccount) {
+          return (
+            <Tooltip title="Unknown">
+              <h1 className="text-sm">Unknown</h1>
+            </Tooltip>
+          );
+        }
+
+        // console.log("name is: ",refAccount.name)
+        const refName = refAccount.name || "unknown";
 
         return (
-          <Tooltip title={refName || "Unknown"}>
+          <Tooltip title={refName}>
             <h1 className="text-sm">{refAccount._id}</h1>
           </Tooltip>
         );

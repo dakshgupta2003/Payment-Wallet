@@ -20,12 +20,9 @@ const Requests = () => {
       dispatch(ShowLoading());
       const response = await getAllRequestsByUser();
       if (response.success) {
-        const sentData = response.data
-          .filter((item) => item.sender._id === user._id)
-          .map((item) => ({ ...item, key: item._id })); // .map adds a key prop to each item
-        const receivedData = response.data
-          .filter((item) => item.receiver._id === user._id)
-          .map((item) => ({ ...item, key: item._id }));
+        console.log("api response", response);
+        const sentData = response.data.map((item) => ({ ...item, key: item._id })); // .map adds a key prop to each item
+        const receivedData = response.data.map((item) => ({ ...item, key: item._id }));
         setData({
           sent: sentData,
           received: receivedData,
@@ -35,6 +32,7 @@ const Requests = () => {
       }
       dispatch(HideLoading());
     } catch (error) {
+      console.log("hello error: ", error)
       dispatch(HideLoading());
       message.error(error.message);
     }
@@ -42,8 +40,8 @@ const Requests = () => {
 
   const updateStatus = async (record, status) => {
     try {
-      if(status === "accepted" && record.amount>user.balance){
-        message.error("Insufficient Funds")
+      if (status === "accepted" && record.amount > user.balance) {
+        message.error("Insufficient Funds");
         return;
       }
       dispatch(ShowLoading());
@@ -52,13 +50,10 @@ const Requests = () => {
       if (response.success) {
         message.success(response.message);
         getData();
-        dispatch(SetReloadUser(true))
-        
+        dispatch(SetReloadUser(true));
       } else {
         message.error(response.message);
       }
-      
-      
     } catch (error) {
       dispatch(HideLoading());
       message.error(error.message);
@@ -73,8 +68,8 @@ const Requests = () => {
       title: "Sender",
       dataIndex: "sender",
       render(text, record) {
-        const senderAcc = record.sender._id;
-        const senderName = record.sender.name;
+        const senderAcc = record.sender?._id || "Unknown";
+        const senderName = record.sender?.name || "Unknown";
         return (
           <Tooltip title={senderName}>
             <h1 className="text-sm">{senderAcc}</h1>
@@ -86,8 +81,9 @@ const Requests = () => {
       title: "Receiver",
       dataIndex: "receiver",
       render(text, record) {
-        const receiverAcc = record.receiver._id;
-        const receiverName = record.receiver.name;
+       
+        const receiverAcc = record.receiver?._id || "Unknown";
+        const receiverName = record.receiver?.name || "Unknown";
         return (
           <Tooltip title={receiverName}>
             <h1 className="text-sm">{receiverAcc}</h1>
@@ -194,7 +190,7 @@ const Requests = () => {
         <RequestModal
           showRequestModal={showRequestModel}
           setShowRequestModal={setShowRequestModel}
-          reloadData = {getData}
+          reloadData={getData}
         />
       )}
     </>

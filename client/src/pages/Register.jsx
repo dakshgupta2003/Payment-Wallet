@@ -20,10 +20,11 @@ const Register = () => {
 
     // to signUp only after OTP verification --> but sadly Twilio sends OTP to numbers that are verified by Twilio
     
-    // if(!verified){  
-    //   message.error("Complete OTP Verification to SignUp");
-    //   return;
-    // }
+    if(!verified){  
+      message.error("Complete OTP Verification to SignUp");
+      return;
+    }
+    
     for (const [key, value] of Object.entries(formData)) {
       if (!value.trim()) {
         message.error(`Please fill the ${key} field.`);
