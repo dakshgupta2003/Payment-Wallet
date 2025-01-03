@@ -30,7 +30,7 @@ const Requests = () => {
           sent: sentData,
           received: receivedData,
         });
-        console.log("this is the data:", data);
+        // console.log("this is the data:", data);
         // this data should be in "Sent" tab for the sender and "Received" tab for the receiver
       }
       dispatch(HideLoading());
